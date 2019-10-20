@@ -6,14 +6,32 @@
 	objectVersion = 50;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		179F3490235CAA6E00D6F077 /* PSSpriteKitUtils-Universal */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 179F3491235CAA6E00D6F077 /* Build configuration list for PBXAggregateTarget "PSSpriteKitUtils-Universal" */;
+			buildPhases = (
+				179F3494235CAA7800D6F077 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "PSSpriteKitUtils-Universal";
+			productName = "PSSpriteKitUtils-Universal";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		179F3486235CA99700D6F077 /* PSSpriteKitUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 179F3484235CA99700D6F077 /* PSSpriteKitUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		179F348E235CA9D300D6F077 /* PSButtonShapeNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 179F348C235CA9D200D6F077 /* PSButtonShapeNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		179F348F235CA9D300D6F077 /* PSButtonShapeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 179F348D235CA9D300D6F077 /* PSButtonShapeNode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		179F3481235CA99700D6F077 /* PSSpriteKitUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PSSpriteKitUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		179F3484235CA99700D6F077 /* PSSpriteKitUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSSpriteKitUtils.h; sourceTree = "<group>"; };
 		179F3485235CA99700D6F077 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		179F348C235CA9D200D6F077 /* PSButtonShapeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSButtonShapeNode.h; sourceTree = "<group>"; };
+		179F348D235CA9D300D6F077 /* PSButtonShapeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSButtonShapeNode.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +64,8 @@
 		179F3483235CA99700D6F077 /* PSSpriteKitUtils */ = {
 			isa = PBXGroup;
 			children = (
+				179F348C235CA9D200D6F077 /* PSButtonShapeNode.h */,
+				179F348D235CA9D300D6F077 /* PSButtonShapeNode.m */,
 				179F3484235CA99700D6F077 /* PSSpriteKitUtils.h */,
 				179F3485235CA99700D6F077 /* Info.plist */,
 			);
@@ -60,6 +80,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				179F3486235CA99700D6F077 /* PSSpriteKitUtils.h in Headers */,
+				179F348E235CA9D300D6F077 /* PSButtonShapeNode.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,6 +117,9 @@
 					179F3480235CA99700D6F077 = {
 						CreatedOnToolsVersion = 10.1;
 					};
+					179F3490235CAA6E00D6F077 = {
+						CreatedOnToolsVersion = 10.1;
+					};
 				};
 			};
 			buildConfigurationList = 179F347B235CA99700D6F077 /* Build configuration list for PBXProject "PSSpriteKitUtils" */;
@@ -111,6 +135,7 @@
 			projectRoot = "";
 			targets = (
 				179F3480235CA99700D6F077 /* PSSpriteKitUtils */,
+				179F3490235CAA6E00D6F077 /* PSSpriteKitUtils-Universal */,
 			);
 		};
 /* End PBXProject section */
@@ -125,11 +150,32 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		179F3494235CAA7800D6F077 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target \"${PROJECT_NAME}\" ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build\nxcodebuild -target \"${PROJECT_NAME}\" -configuration ${CONFIGURATION} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build\n\n# Step 2. Copy the framework structure (from iphoneos build) to the universal folder\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Step 3. Copy Swift modules from iphonesimulator build (if it exists) to the copied framework directory\nSIMULATOR_SWIFT_MODULES_DIR=\"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/Modules/${PROJECT_NAME}.swiftmodule/.\"\nif [ -d \"${SIMULATOR_SWIFT_MODULES_DIR}\" ]; then\ncp -R \"${SIMULATOR_SWIFT_MODULES_DIR}\" \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Modules/${PROJECT_NAME}.swiftmodule\"\nfi\n\n# Step 4. Create universal binary file using lipo and place the combined executable in the copied framework directory\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/${PROJECT_NAME}\"\n\n# Step 5. Convenience step to copy the framework to the project's directory\ncp -R \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework\" \"${PROJECT_DIR}\"\n\n# Step 6. Convenience step to open the project's directory in Finder\nopen \"${PROJECT_DIR}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		179F347D235CA99700D6F077 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				179F348F235CA9D300D6F077 /* PSButtonShapeNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +348,24 @@
 			};
 			name = Release;
 		};
+		179F3492235CAA6E00D6F077 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BR2M9RRNF6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		179F3493235CAA6E00D6F077 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BR2M9RRNF6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -319,6 +383,15 @@
 			buildConfigurations = (
 				179F348A235CA99700D6F077 /* Debug */,
 				179F348B235CA99700D6F077 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		179F3491235CAA6E00D6F077 /* Build configuration list for PBXAggregateTarget "PSSpriteKitUtils-Universal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				179F3492235CAA6E00D6F077 /* Debug */,
+				179F3493235CAA6E00D6F077 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

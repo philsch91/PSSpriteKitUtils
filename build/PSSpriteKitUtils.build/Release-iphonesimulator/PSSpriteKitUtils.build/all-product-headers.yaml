@@ -1,0 +1,38 @@
+{
+  'version': 0,
+  'case-sensitive': 'false',
+  'roots': [
+    {
+      'type': 'directory',
+      'name': "/Users/philipp/Library/Developer/Xcode/DerivedData/PSSpriteKitUtils-cbluiczyljmblgeggllrfltagzvz/Build/Products/Release-iphonesimulator/PSSpriteKitUtils.framework/Headers",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "PSButtonShapeNode.h",
+          'external-contents': "/Users/philipp/Documents/Projekte/PSSpriteKitUtils/PSSpriteKitUtils/PSButtonShapeNode.h"
+        },
+        {
+          'type': 'file',
+          'name': "PSSpriteKitUtils-Swift.h",
+          'external-contents': "/Users/philipp/Library/Developer/Xcode/DerivedData/PSSpriteKitUtils-cbluiczyljmblgeggllrfltagzvz/Build/Products/Release-iphonesimulator/PSSpriteKitUtils.framework/Headers/PSSpriteKitUtils-Swift.h"
+        },
+        {
+          'type': 'file',
+          'name': "PSSpriteKitUtils.h",
+          'external-contents': "/Users/philipp/Documents/Projekte/PSSpriteKitUtils/PSSpriteKitUtils/PSSpriteKitUtils.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/philipp/Library/Developer/Xcode/DerivedData/PSSpriteKitUtils-cbluiczyljmblgeggllrfltagzvz/Build/Products/Release-iphonesimulator/PSSpriteKitUtils.framework/Modules",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "module.modulemap",
+          'external-contents': "/Users/philipp/Documents/Projekte/PSSpriteKitUtils/build/PSSpriteKitUtils.build/Release-iphonesimulator/PSSpriteKitUtils.build/module.modulemap"
+        }
+      ]
+    }
+  ]
+}

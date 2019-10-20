@@ -1,0 +1,6 @@
+framework module PSSpriteKitUtils {
+  umbrella header "PSSpriteKitUtils.h"
+
+  export *
+  module * { export * }
+}
